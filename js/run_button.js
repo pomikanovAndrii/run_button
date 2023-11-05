@@ -7,12 +7,17 @@ yesbtn.addEventListener("click", () => alert('Успіх!'));
 
 
 function button_run(event){
-    //координати миші
-    // координати кнопки
+
     let coords = yesbtn.getBoundingClientRect();
 
     let height = coords.bottom - coords.top;
     let weight = coords.right - coords.left;
+
+    if(coords.left == 0 || coords.top == 0 || coords.left == document.documentElement.clientWidth-weight || coords.top == document.documentElement.clientHeight-height) {
+        yesbtn.style.left = Math.random()*(document.documentElement.clientWidth-weight);
+        yesbtn.style.top = Math.random()*(document.documentElement.clientHeight-height);
+        return;
+    }
 
     let btnCenterX = coords.left + weight/2;
     let btnCenterY = coords.top + height/2;
@@ -36,7 +41,19 @@ function button_run(event){
 
     console.log(`cord2 x:${vector2X + event.pageX} | y:${vector2Y + event.pageY}`);
 
-    yesbtn.style.left = vector2X + event.pageX - weight/2;
-    yesbtn.style.top = vector2Y + event.pageY - height/2;
+    let newX = vector2X + event.pageX - weight/2;
+    let newY = vector2Y + event.pageY - height/2;
+
+    if(newX < 0)
+        newX = 0;
+    if(newY < 0)
+        newY = 0;
+    if(newX > document.documentElement.clientWidth)
+        newX = document.documentElement.clientWidth-weight;
+    if(newY > document.documentElement.clientHeight)
+        newY = document.documentElement.clientHeight-height;
+
+    yesbtn.style.left = newX;
+    yesbtn.style.top = newY;
 } 
 
